@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SimpleAnalogClock">
+        <attr name="dial" format="reference"/>
+        <attr name="hour_hand" format="reference"/>
+        <attr name="min_hand" format="reference"/>
+        <attr name="hour_hand_offset" format="dimension"/>
+        <attr name="min_hand_offset" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="SimpleTextClock">
+        <attr name="clock_bg" format="reference"/>
+        <attr name="custom_font" format="string"/>
+    </declare-styleable>
+</resources>
