@@ -11,13 +11,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
+
+    public interface ServiceListener{
+        void onServiceConnected(TalkingWatchService service);
+        void onServiceDisConnected(TalkingWatchService service);
+    }
     private TalkingWatchService mService = null;
     public TalkingWatchService getTalkingService(){
         return mService;
+    }
+
+    private List<ServiceListener> mServiceConnListener = new ArrayList<>();
+
+    public void registerServiceConnListener(ServiceListener sc){
+        mServiceConnListener.add(sc);
+    }
+    public void unregisterServiceConnListener(ServiceListener sc){
+        mServiceConnListener.remove(sc);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,13 +54,20 @@ public class MainActivity extends AppCompatActivity
     {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            //Toast.makeText(MainActivity.this.getApplicationContext(),
-            //        "the service started", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this.getApplicationContext(),
+                    "the service started", Toast.LENGTH_SHORT).show();
             mService = ((TalkingWatchService.ServiceBinder)service).getService();
+
+            for(ServiceListener sl : mServiceConnListener){
+                sl.onServiceConnected(mService);
+            }
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            for(ServiceListener sl : mServiceConnListener){
+                sl.onServiceDisConnected(mService);
+            }
             mService = null;
         }
     };

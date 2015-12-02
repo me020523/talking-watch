@@ -93,4 +93,26 @@ public class TalkingWatchService extends Service
     {
         return new ServiceBinder();
     }
+
+    private boolean mEnabled = true;
+    public void setEnabled(boolean enabled){
+        mEnabled = enabled;
+        onToggled(mEnabled);
+    }
+    public boolean getEnabled(){
+        return mEnabled;
+    }
+
+    protected void onToggled(boolean enabled){
+        if(!enabled){
+            EventSourceManager.getInstance().stopListenAll();
+        }
+        else{
+            try {
+                EventSourceManager.getInstance().startListenAll();
+            } catch (EventSourceException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

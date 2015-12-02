@@ -22,7 +22,7 @@
 
     <ImageView
         android:layout_width="36dp"
-        android:layout_height="48dp"
+        android:layout_height="36dp"
         android:id="@+id/btn_talking"
         android:src="@drawable/setting"
         android:scaleType="fitCenter"
@@ -32,12 +32,14 @@
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp" />
 
-    <ImageView
+    <ImageButton
         android:layout_width="36dp"
-        android:layout_height="48dp"
+        android:layout_height="36dp"
         android:id="@+id/btn_setting"
         android:src="@drawable/talking"
+        android:background="@drawable/btn_toggle"
         android:scaleType="fitCenter"
+        android:padding="4dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
