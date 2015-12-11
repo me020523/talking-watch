@@ -8,11 +8,15 @@ import android.hardware.SensorManager;
 
 import com.origintech.talkingwatch.exception.ShakeNotSupportedException;
 
+import java.util.logging.Logger;
+
 /**
  * Created by shuaibincheng on 15/9/21.
  */
 public class ShakeEventSource extends EventSource
 {
+    Logger logger = Logger.getLogger(this.getClass().toString());
+
     private Context context = null;
     public ShakeEventSource(Context context, String name)
     {
@@ -50,6 +54,7 @@ public class ShakeEventSource extends EventSource
     @Override
     public void startListen() throws ShakeNotSupportedException
     {
+        logger.info(">>>>start to listen the shaking event");
         sm = (SensorManager)this.context.getSystemService(Context.SENSOR_SERVICE);
         sensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if(sensor == null)
@@ -63,6 +68,7 @@ public class ShakeEventSource extends EventSource
     @Override
     public void stopListen()
     {
+        logger.info(">>>>stop to listen the shaking event");
         if(sm == null || sensor == null)
             return;
         sm.unregisterListener(listener);

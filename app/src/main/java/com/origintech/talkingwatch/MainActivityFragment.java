@@ -10,13 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.Date;
+import java.util.logging.Logger;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment implements MainActivity.ServiceListener{
+
+    Logger logger = Logger.getLogger(this.getClass().toString());
 
     private ImageView talkingBtn = null;
     private ImageButton talkingToggle = null;
@@ -43,7 +47,20 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         @Override
         public void onClick(View v) {
             TalkingWatchService service = ((MainActivity)mContext).getTalkingService();
+            if(service == null){
+                Toast.makeText(MainActivityFragment.this.getContext(),
+                        "no talking sevice connected",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(service.getSpeaker() == null){
+                Toast.makeText(MainActivityFragment.this.getContext(),
+                        "the talking service has no speaker",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
             if(service != null && service.getSpeaker() != null){
+                logger.info("start to speak by clicking");
                 service.getSpeaker().speak(new Date());
             }
         }
@@ -53,8 +70,13 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         @Override
         public void onClick(View v) {
             TalkingWatchService service = ((MainActivity)mContext).getTalkingService();
-            if(service == null)
+            if(service == null){
+                Toast.makeText(MainActivityFragment.this.getContext(),
+                        "no talking sevice connected",
+                        Toast.LENGTH_SHORT).show();
                 return;
+            }
+
             if(service.getEnabled()){
                 service.setEnabled(false);
                 talkingToggle.setSelected(false);

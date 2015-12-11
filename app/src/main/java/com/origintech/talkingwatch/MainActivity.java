@@ -1,23 +1,24 @@
 package com.origintech.talkingwatch;
 
-import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class MainActivity extends AppCompatActivity
 {
+    Logger logger = Logger.getLogger(this.getClass().toString());
 
     public interface ServiceListener{
         void onServiceConnected(TalkingWatchService service);
@@ -45,22 +46,22 @@ public class MainActivity extends AppCompatActivity
 
     private boolean isServiceRunning()
     {
-        SharedPreferences sp = this.getSharedPreferences(TalkingWatchService.SERVICE_KEY
-                                                            , Activity.MODE_PRIVATE);
-        return sp.getBoolean(TalkingWatchService.SERVICE_KEY,false);
+        return TalkingWatchService.isRunning();
     }
 
     private ServiceConnection sc = new ServiceConnection()
     {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Toast.makeText(MainActivity.this.getApplicationContext(),
-                    "the service started", Toast.LENGTH_SHORT).show();
+
+            mBinded = true;
+
             mService = ((TalkingWatchService.ServiceBinder)service).getService();
 
             for(ServiceListener sl : mServiceConnListener){
                 sl.onServiceConnected(mService);
             }
+            logger.info("connected to talking service");
         }
 
         @Override
@@ -69,20 +70,44 @@ public class MainActivity extends AppCompatActivity
                 sl.onServiceDisConnected(mService);
             }
             mService = null;
+
+            mBinded = false;
+
+            logger.info("disconnected with talking service");
         }
     };
+
+    private Handler mHandler = new Handler();
+    private boolean mBinded = false;
     @Override
     protected void onStart() {
         super.onStart();
 
-        Intent intent = new Intent(this.getApplicationContext(), TalkingWatchService.class);
+        logger.info(">>>MainActivity start...");
+        final Intent intent = new Intent(this.getApplicationContext(), TalkingWatchService.class);
         if(!isServiceRunning())
         {
             //the service hasn't started, so we need to start it first
-           this.startService(intent);
+            this.startService(intent);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(isServiceRunning()){
+                        //now let's bind the service
+                        logger.info("the service has been started, so we can bind it");
+                        MainActivity.this.bindService(intent, sc, Context.BIND_AUTO_CREATE);
+                    }
+                    else
+                    {
+                        logger.info("the service has not been started, so we still need to wait");
+                        mHandler.postDelayed(this,500);
+                    }
+                }
+            }, 500);
         }
-        //now let's bind the service
-        this.bindService(intent, sc, Context.BIND_AUTO_CREATE);
+        else{
+            this.bindService(intent, sc, Context.BIND_ABOVE_CLIENT);
+        }
     }
 
     @Override
@@ -113,7 +138,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStop()
     {
+        if(mBinded){
+            this.unbindService(sc);
+        }
         super.onStop();
-        this.unbindService(sc);
     }
 }

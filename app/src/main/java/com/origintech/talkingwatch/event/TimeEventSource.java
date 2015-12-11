@@ -6,12 +6,14 @@ import android.os.Handler;
 import com.origintech.talkingwatch.exception.ShakeNotSupportedException;
 
 import java.util.Date;
+import java.util.logging.Logger;
 
 /**
  * Created by shuaibincheng on 15/9/23.
  */
 public class TimeEventSource extends EventSource
 {
+    Logger logger = Logger.getLogger(this.getClass().toString());
     public enum TimeType
     {
         HOUR,
@@ -47,11 +49,13 @@ public class TimeEventSource extends EventSource
     @Override
     public void startListen() throws ShakeNotSupportedException
     {
+        logger.info(">>>start to listene the timing event");
         handler.postDelayed(delayJob,1000);
     }
 
     @Override
     public void stopListen() {
+        logger.info(">>>stop to listene the timing event");
         handler.removeCallbacks(delayJob);
     }
 }

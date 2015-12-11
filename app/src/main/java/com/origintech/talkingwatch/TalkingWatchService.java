@@ -17,11 +17,19 @@ import com.origintech.talkingwatch.speaker.MusicWatchSpeaker;
 import com.origintech.talkingwatch.speaker.WatchSpeaker;
 
 import java.util.Date;
+import java.util.logging.Logger;
 
 public class TalkingWatchService extends Service
 {
+    Logger logger = Logger.getLogger(TalkingWatchService.class.toString());
+
+    private static boolean mRunning = false;
+    public static boolean isRunning(){
+        return mRunning;
+    }
 
     public static String SERVICE_KEY = "talking_watch_service";
+    public static String SERVICE_ENABLED_KEY = "talking_watch_service_enabled";
 
     private EventSource.OnEventHandler handler = null;
 
@@ -36,11 +44,11 @@ public class TalkingWatchService extends Service
             @Override
             public void handle(Event e) {
                 //now the watch should talk
-                /*Toast.makeText(TalkingWatchService.this.getApplicationContext(),
-                        "the watch is talking", Toast.LENGTH_SHORT).show();*/
                 Date date = new Date();
-
-                speaker.speak(date);
+                if(speaker != null)
+                    speaker.speak(date);
+                else
+                    logger.info("this speaker is null!!!");
             }
         };
 
@@ -64,21 +72,41 @@ public class TalkingWatchService extends Service
     {
         super.onStartCommand(intent, flags, startId);
         speaker = new MusicWatchSpeaker(this.getApplicationContext());
+
+        SharedPreferences sp = this.getSharedPreferences(SERVICE_KEY, Activity.MODE_PRIVATE);
+        mEnabled = sp.getBoolean(SERVICE_ENABLED_KEY, true);
+
         try
         {
-            EventSourceManager.getInstance().startListenAll();
+            if(mEnabled)
+                EventSourceManager.getInstance().startListenAll();
+            else
+                EventSourceManager.getInstance().stopListenAll();
         }
         catch (EventSourceException e)
         {
             e.printStackTrace();
         }
 
-        SharedPreferences sp = this.getSharedPreferences(SERVICE_KEY, Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(SERVICE_KEY, true);
-        editor.commit();
+        mRunning = true;
+
+        logger.info("the talking service started");
 
         return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        SharedPreferences sp = this.getSharedPreferences(SERVICE_KEY, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(SERVICE_ENABLED_KEY, mEnabled);
+        editor.commit();
+
+        mRunning = false;
+
+        logger.info("talking service destroyed");
     }
 
     public class ServiceBinder extends Binder
@@ -88,6 +116,7 @@ public class TalkingWatchService extends Service
             return TalkingWatchService.this;
         }
     }
+
     @Override
     public IBinder onBind(Intent intent)
     {
@@ -95,8 +124,15 @@ public class TalkingWatchService extends Service
     }
 
     private boolean mEnabled = true;
+
     public void setEnabled(boolean enabled){
         mEnabled = enabled;
+
+        SharedPreferences sp = this.getSharedPreferences(SERVICE_KEY, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(SERVICE_ENABLED_KEY, enabled);
+        editor.commit();
+
         onToggled(mEnabled);
     }
     public boolean getEnabled(){

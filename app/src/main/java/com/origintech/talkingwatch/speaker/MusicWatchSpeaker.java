@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.origintech.talkingwatch.R;
 
@@ -12,20 +13,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by shuaibincheng on 15/11/22.
  */
 public class MusicWatchSpeaker extends WatchSpeaker {
 
+    Logger logger = Logger.getLogger(this.getClass().toString());
     MediaPlayer mPlayer = null;
     Context mContext = null;
 
     private final int[] HOUR_INDEX = {
-            R.raw.t00,
+            R.raw.t12,
             R.raw.t1, R.raw.t2, R.raw.t03, R.raw.t04,
             R.raw.t05, R.raw.t06, R.raw.t07, R.raw.t08,
-            R.raw.t09, R.raw.t10, R.raw.t11, R.raw.t12
+            R.raw.t09, R.raw.t10, R.raw.t11
     };
     private final int[] MIN_INDEX = {
             R.raw.t00,
@@ -68,6 +71,9 @@ public class MusicWatchSpeaker extends WatchSpeaker {
 
     @Override
     public void speak(Date date) {
+
+        logger.info("Hey man, Let's speaker");
+
         int hour = date.getHours();
         int minute = date.getMinutes();
         mWavFiles.clear();
@@ -130,8 +136,10 @@ public class MusicWatchSpeaker extends WatchSpeaker {
         else{
             afs = mContext.getResources().openRawResourceFd(MIN_INDEX[minHigh]);
             mWavFiles.add(afs);
-            afs = mContext.getResources().openRawResourceFd(MIN_INDEX[minLow]);
-            mWavFiles.add(afs);
+            if(minLow != 0){
+                afs = mContext.getResources().openRawResourceFd(MIN_INDEX[minLow]);
+                mWavFiles.add(afs);
+            }
         }
 
         afs = mContext.getResources().openRawResourceFd(R.raw.min);
