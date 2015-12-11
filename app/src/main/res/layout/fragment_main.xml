@@ -20,12 +20,15 @@
         my:min_hand_offset="60dp"
         my:hour_hand_offset="60dp"/>
 
-    <ImageView
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+    <ImageButton
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:id="@+id/btn_talking"
         android:src="@drawable/setting"
+        android:padding="4dp"
+        android:focusable="true"
         android:scaleType="fitCenter"
+        android:background="@drawable/bg_setting"
         android:layout_alignTop="@+id/btn_setting"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -37,7 +40,7 @@
         android:layout_height="36dp"
         android:id="@+id/btn_setting"
         android:src="@drawable/talking"
-        android:background="@drawable/btn_toggle"
+        android:background="@drawable/bg_toggle"
         android:scaleType="fitCenter"
         android:padding="4dp"
         android:layout_alignParentTop="true"
