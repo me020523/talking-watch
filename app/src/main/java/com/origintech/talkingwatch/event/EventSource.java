@@ -17,6 +17,17 @@ public class EventSource
     }
 
     public EventSource(){}
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    private boolean enable = false;
+
     private String name = null; //the name of this event source
     public EventSource(String name)
     {
@@ -27,7 +38,7 @@ public class EventSource
                                 Collections.synchronizedList(new ArrayList<OnEventHandler>());
     public void startListen() throws ShakeNotSupportedException
     {
-
+        enable = true;
     }
     public void registerListener(OnEventHandler handler)
     {
@@ -43,7 +54,7 @@ public class EventSource
     }
     public void stopListen()
     {
-
+        enable = false;
     }
 
     protected void onShake(Event e)

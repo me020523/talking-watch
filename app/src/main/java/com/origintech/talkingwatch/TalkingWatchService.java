@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
+import android.renderscript.Sampler;
 
 import com.origintech.talkingwatch.event.Event;
 import com.origintech.talkingwatch.event.EventSource;
@@ -30,6 +31,9 @@ public class TalkingWatchService extends Service
 
     public static String SERVICE_KEY = "talking_watch_service";
     public static String SERVICE_ENABLED_KEY = "talking_watch_service_enabled";
+    public static String SHAKING_THRESHOLD_KEY = "shaking_threshold_key";
+    public static String HALFTIME_ENABLED= "halftime_es_enabled";
+    public static String SHARPTIME_ENABLED= "sharptime_es_enabled";
 
     private EventSource.OnEventHandler handler = null;
 
@@ -45,14 +49,20 @@ public class TalkingWatchService extends Service
             public void handle(Event e) {
                 //now the watch should talk
                 Date date = new Date();
-                if(speaker != null)
+                if(mEnabled && speaker != null)
                     speaker.speak(date);
-                else
+                else if(speaker == null)
                     logger.info("this speaker is null!!!");
+                else if(!mEnabled)
+                    logger.info("the talking sevice has been disabled");
             }
         };
 
+        int threshold = 0;
+        SharedPreferences sp = this.getSharedPreferences(SERVICE_KEY, Activity.MODE_PRIVATE);
+        threshold = sp.getInt(SHAKING_THRESHOLD_KEY, 15);
         EventSource shake = new ShakeEventSource(this.getApplicationContext(), "shakeEvent");
+        ((ShakeEventSource)shake).setThreshold(threshold);
         shake.registerListener(handler);
         EventSourceManager.getInstance().addEventSource(shake);
 
@@ -76,15 +86,22 @@ public class TalkingWatchService extends Service
         SharedPreferences sp = this.getSharedPreferences(SERVICE_KEY, Activity.MODE_PRIVATE);
         mEnabled = sp.getBoolean(SERVICE_ENABLED_KEY, true);
 
-        try
-        {
-            if(mEnabled)
-                EventSourceManager.getInstance().startListenAll();
+        try{
+            EventSourceManager.getInstance().startListenAll();
+
+            boolean e = sp.getBoolean(HALFTIME_ENABLED, true);
+            if(e)
+                EventSourceManager.getInstance().getEventSourceByName("halfhour").startListen();
             else
-                EventSourceManager.getInstance().stopListenAll();
-        }
-        catch (EventSourceException e)
-        {
+                EventSourceManager.getInstance().getEventSourceByName("halfhour").stopListen();
+
+            e = sp.getBoolean(SHARPTIME_ENABLED, true);
+            if(e)
+                EventSourceManager.getInstance().getEventSourceByName("hour").startListen();
+            else
+                EventSourceManager.getInstance().getEventSourceByName("hour").stopListen();
+
+        }catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -140,15 +157,66 @@ public class TalkingWatchService extends Service
     }
 
     protected void onToggled(boolean enabled){
-        if(!enabled){
-            EventSourceManager.getInstance().stopListenAll();
+//        if(!enabled){
+//            EventSourceManager.getInstance().stopListenAll();
+//        }
+//        else{
+//            try {
+//                EventSourceManager.getInstance().startListenAll();
+//            } catch (EventSourceException e) {
+//                e.printStackTrace();
+//            }
+//        }
+    }
+
+    public void toggleHalfTime(boolean enable){
+        EventSource es = EventSourceManager.getInstance().getEventSourceByName("halfhour");
+        if(es == null)
+            return;
+        try{
+            if(enable)
+                es.startListen();
+            else
+                es.stopListen();
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        else{
-            try {
-                EventSourceManager.getInstance().startListenAll();
-            } catch (EventSourceException e) {
-                e.printStackTrace();
-            }
+        finally {
+            SharedPreferences sp = this.getSharedPreferences(SERVICE_KEY, Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean(HALFTIME_ENABLED, enable);
+            editor.commit();
         }
+    }
+    public void toggleShapeTime(boolean enable){
+        EventSource es = EventSourceManager.getInstance().getEventSourceByName("hour");
+        if(es == null)
+            return;
+        try {
+            if (enable)
+                es.startListen();
+            else
+                es.stopListen();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally {
+            SharedPreferences sp = this.getSharedPreferences(SERVICE_KEY, Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean(SHARPTIME_ENABLED, enable);
+            editor.commit();
+        }
+    }
+    public void changeSensitity(int value){
+        ShakeEventSource es = (ShakeEventSource) EventSourceManager.getInstance()
+                .getEventSourceByName("shakeEvent");
+        if(es == null)
+            return;
+        es.setThreshold(value);
+        SharedPreferences sp = this.getSharedPreferences(SERVICE_KEY, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(SHAKING_THRESHOLD_KEY, value);
+        editor.commit();
     }
 }

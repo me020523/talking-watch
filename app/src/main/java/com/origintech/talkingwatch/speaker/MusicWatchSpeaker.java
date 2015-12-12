@@ -126,8 +126,9 @@ public class MusicWatchSpeaker extends WatchSpeaker {
         int minHigh = (minute / 10)*10;
         int minLow = minute % 10;
         if(minHigh == 0 && minLow == 0){
-            afs = mContext.getResources().openRawResourceFd(MIN_INDEX[0]);
-            mWavFiles.add(afs);
+            //afs = mContext.getResources().openRawResourceFd(MIN_INDEX[0]);
+            //mWavFiles.add(afs);
+            return;
         }
         else if(minHigh == 0 && minLow != 0){
             afs = mContext.getResources().openRawResourceFd(MIN_INDEX[minLow]);

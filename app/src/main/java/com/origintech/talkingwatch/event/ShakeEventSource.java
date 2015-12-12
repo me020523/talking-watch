@@ -28,7 +28,15 @@ public class ShakeEventSource extends EventSource
     private Sensor sensor = null;
 
 
-    private float SHAKE_THRESHOLD_VALUE = 15;
+    public float getShakeThreshold() {
+        return shakeThreshold;
+    }
+
+    private float shakeThreshold = 15;
+    public void setThreshold(float value){
+        shakeThreshold = value;
+        logger.info("the threshold has changed to " + value);
+    }
     private SensorEventListener listener = new SensorEventListener()
     {
         @Override
@@ -38,8 +46,8 @@ public class ShakeEventSource extends EventSource
             float dy = event.values[1];
             float dz = event.values[2];
 
-            if(Math.abs(dx) > SHAKE_THRESHOLD_VALUE || Math.abs(dy) > SHAKE_THRESHOLD_VALUE
-                    || Math.abs(dz) > SHAKE_THRESHOLD_VALUE)
+            if(Math.abs(dx) > shakeThreshold || Math.abs(dy) > shakeThreshold
+                    || Math.abs(dz) > shakeThreshold)
             {
                 onShake(new Event());
             }
@@ -63,6 +71,7 @@ public class ShakeEventSource extends EventSource
         }
 
         sm.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        super.startListen();
     }
 
     @Override
@@ -72,5 +81,6 @@ public class ShakeEventSource extends EventSource
         if(sm == null || sensor == null)
             return;
         sm.unregisterListener(listener);
+        super.stopListen();
     }
 }

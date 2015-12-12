@@ -23,6 +23,13 @@ public class EventSourceManager
     {
         sources.add(es);
     }
+    public EventSource getEventSourceByName(String name){
+        for(EventSource es : sources){
+            if(es.getName().equals(name))
+                return es;
+        }
+        return null;
+    }
 
     public void removeEventSource(EventSource es)
     {

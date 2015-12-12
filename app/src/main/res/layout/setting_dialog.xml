@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+
+    <TextView
+        android:background="@color/bg_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="报时" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="启用整点报时" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sharp_time_enable"
+            android:checked="false" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_item_bg"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="启用半点报时" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/half_time_enable"
+            android:checked="true" />
+    </LinearLayout>
+
+    <TextView
+        android:background="@color/bg_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="灵敏度" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="高"/>
+
+        <SeekBar
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:max="50"
+            android:id="@+id/seekBar"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="低" />
+    </LinearLayout>
+
+    <TextView
+        android:background="@color/bg_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:paddingTop="4dp"
+        android:visibility="gone"
+        android:paddingBottom="4dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="后台服务" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:visibility="gone"
+        android:paddingRight="8dp"
+        android:text="重启服务"
+        android:id="@+id/restart_service" />
+
+</LinearLayout>

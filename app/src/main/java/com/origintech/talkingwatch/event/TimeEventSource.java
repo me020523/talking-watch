@@ -51,11 +51,13 @@ public class TimeEventSource extends EventSource
     {
         logger.info(">>>start to listene the timing event");
         handler.postDelayed(delayJob,1000);
+        super.startListen();
     }
 
     @Override
     public void stopListen() {
         logger.info(">>>stop to listene the timing event");
         handler.removeCallbacks(delayJob);
+        super.stopListen();
     }
 }

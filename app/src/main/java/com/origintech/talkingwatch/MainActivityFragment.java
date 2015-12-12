@@ -1,8 +1,6 @@
 package com.origintech.talkingwatch;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,13 +16,16 @@ import java.util.logging.Logger;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements MainActivity.ServiceListener{
+public class MainActivityFragment extends Fragment implements MainActivity.ServiceListener,
+        SettingDialogFragment.SettingEventHandler{
 
     Logger logger = Logger.getLogger(this.getClass().toString());
 
     private ImageView talkingBtn = null;
     private ImageButton talkingToggle = null;
+    private ImageButton settingBtn = null;
 
+    private SettingDialogFragment mDialog = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -34,8 +35,19 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         talkingBtn = (ImageView)v.findViewById(R.id.talking);
         talkingBtn.setOnClickListener(onTalkingListener);
 
-        talkingToggle = (ImageButton)v.findViewById(R.id.btn_setting);
+        talkingToggle = (ImageButton)v.findViewById(R.id.btn_talking_toggle);
         talkingToggle.setOnClickListener(onTalkingToggled);
+
+        settingBtn = (ImageButton)v.findViewById(R.id.btn_setting);
+        settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.show(MainActivityFragment.this.getFragmentManager(),"setting");
+            }
+        });
+
+        mDialog = new SettingDialogFragment();
+        mDialog.setEventHandler(this);
 
         return v;
     }
@@ -126,8 +138,42 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         }
     }
 
+    public boolean isServiceConnected(){
+        if(mContext != null && ((MainActivity)mContext).getTalkingService() != null)
+            return true;
+        else
+            return false;
+    }
     @Override
     public void onServiceDisConnected(TalkingWatchService service) {
+
+    }
+
+    @Override
+    public void onHalfTimeToggled(boolean enable) {
+        if(!isServiceConnected())
+            return;
+        ((MainActivity)mContext).getTalkingService().toggleHalfTime(enable);
+    }
+
+    @Override
+    public void onShapeTimeToggled(boolean enable) {
+        if(!isServiceConnected())
+            return;
+        ((MainActivity)mContext).getTalkingService().toggleShapeTime(enable);
+    }
+
+    @Override
+    public void onSensitivityChanged(int value) {
+        if(!isServiceConnected())
+            return;
+        ((MainActivity)mContext).getTalkingService().changeSensitity(value);
+    }
+
+    @Override
+    public void onServiceRestart() {
+        if(!isServiceConnected())
+            return;
 
     }
 }
