@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.umeng.analytics.AnalyticsConfig;
+import com.umeng.analytics.MobclickAgent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -108,6 +111,8 @@ public class MainActivity extends AppCompatActivity
         else{
             this.bindService(intent, sc, Context.BIND_ABOVE_CLIENT);
         }
+
+        AnalyticsConfig.enableEncrypt(true);
     }
 
     @Override
@@ -142,5 +147,19 @@ public class MainActivity extends AppCompatActivity
             this.unbindService(sc);
         }
         super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
     }
 }

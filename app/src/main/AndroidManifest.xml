@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.origintech.talkingwatch"
-    android:versionCode="100"
-    android:versionName="1.0">
+    android:versionCode="101"
+    android:versionName="1.1">
+
+    <uses-sdk android:minSdkVersion="4"></uses-sdk>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -18,6 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data android:value="567f5a5767e58ebbaf0017e6" android:name="UMENG_APPKEY"></meta-data>
+        <!--<meta-data android:value="yingyonghui" android:name="UMENG_CHANNEL"/>-->
+        <!--<meta-data android:value="anzhi" android:name="UMENG_CHANNEL"/>-->
+        <!--<meta-data android:value="samsung" android:name="UMENG_CHANNEL"/>-->
+        <!--<meta-data android:value="baidu" android:name="UMENG_CHANNEL"/>-->
+        <!--<meta-data android:value="360" android:name="UMENG_CHANNEL"/>-->
+        <!--<meta-data android:value="google" android:name="UMENG_CHANNEL"/>-->
+        <!--<meta-data android:value="xiaomi" android:name="UMENG_CHANNEL"/>-->
+        <meta-data android:value="QQ" android:name="UMENG_CHANNEL"/>
 
         <service
             android:name=".TalkingWatchService"

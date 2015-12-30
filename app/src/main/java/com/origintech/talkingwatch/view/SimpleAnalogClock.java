@@ -79,8 +79,8 @@ public class SimpleAnalogClock extends View
 
         float scale = Math.min(hScale,vScale);
 
-        int measuredWidth = resolveSizeAndState((int) (scale * mDialWidth), widthMode, 0);
-        int measuredHeight = resolveSizeAndState((int) (scale * mDialHeight), heightMode, 0);
+        int measuredWidth = resolveSizeAndState_My((int) (scale * mDialWidth), widthMode, 0);
+        int measuredHeight = resolveSizeAndState_My((int) (scale * mDialHeight), heightMode, 0);
         setMeasuredDimension(widthSize,heightSize);
     }
 

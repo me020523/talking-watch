@@ -42,7 +42,10 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialog.show(MainActivityFragment.this.getFragmentManager(),"setting");
+                //快速双击会导致出现Fragment already added: SettingDialogFragment
+                //所以添加之前需要判断
+                if(!mDialog.isAdded())
+                    mDialog.show(MainActivityFragment.this.getFragmentManager(),"setting");
             }
         });
 
