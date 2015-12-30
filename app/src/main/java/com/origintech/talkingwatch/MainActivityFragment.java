@@ -1,14 +1,18 @@
 package com.origintech.talkingwatch;
 
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
+import android.support.v7.widget.AppCompatImageView;
+
+import com.baidu.appx.BDInterstitialAd;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Date;
 import java.util.logging.Logger;
@@ -21,18 +25,22 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
 
     Logger logger = Logger.getLogger(this.getClass().toString());
 
-    private ImageView talkingBtn = null;
+    private AppCompatImageView talkingBtn = null;
     private ImageButton talkingToggle = null;
     private ImageButton settingBtn = null;
 
     private SettingDialogFragment mDialog = null;
+
+    private FloatingActionButton interstitialAd = null;
+
+    private BDInterstitialAd interstitialAdView = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
-        talkingBtn = (ImageView)v.findViewById(R.id.talking);
+        talkingBtn = (AppCompatImageView)v.findViewById(R.id.talking);
         talkingBtn.setOnClickListener(onTalkingListener);
 
         talkingToggle = (ImageButton)v.findViewById(R.id.btn_talking_toggle);
@@ -46,6 +54,16 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
                 //所以添加之前需要判断
                 if(!mDialog.isAdded())
                     mDialog.show(MainActivityFragment.this.getFragmentManager(),"setting");
+            }
+        });
+
+        interstitialAd = (FloatingActionButton)v.findViewById(R.id.fab);
+        interstitialAd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(interstitialAdView != null)
+                    logger.info("展示baidu插屏广告");
+                    interstitialAdView.showAd();
             }
         });
 
@@ -110,6 +128,43 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        interstitialAdView = new BDInterstitialAd(
+                (MainActivity)mContext,
+                "K8NCYXX4MFUZTM1TGmY2SPYrFLBNSR87",
+                "EgcXEtq90QMCUEhpdIGG1w5F"
+        );
+        interstitialAdView.setAdListener(new BDInterstitialAd.InterstitialAdListener() {
+            @Override
+            public void onAdvertisementDataDidLoadSuccess() {
+
+            }
+
+            @Override
+            public void onAdvertisementDataDidLoadFailure() {
+
+            }
+
+            @Override
+            public void onAdvertisementViewDidShow() {
+                MobclickAgent.onEvent(mContext, "ad_show");
+            }
+
+            @Override
+            public void onAdvertisementViewDidHide() {
+                interstitialAdView.loadAd();
+            }
+
+            @Override
+            public void onAdvertisementViewDidClick() {
+                MobclickAgent.onEvent(mContext, "ad_click");
+            }
+
+            @Override
+            public void onAdvertisementViewWillStartNewIntent() {
+
+            }
+        });
+        interstitialAdView.loadAd();
         ((MainActivity)mContext).registerServiceConnListener(this);
     }
 
@@ -129,6 +184,7 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
 
         ((MainActivity)mContext).unregisterServiceConnListener(this);
         mContext = null;
+        interstitialAdView = null;
         talkingBtn.setOnClickListener(null);
     }
 

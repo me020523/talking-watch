@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -25,7 +27,23 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.baidu.appx.ui.BDInnerBrowser"/>
+        <receiver android:name="com.baidu.appx.app_download.CompleteReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <data android:scheme="package"/>
+                <!-- 注意！！ 这句必须要加，否则接收不到安装完成广播 -->
+            </intent-filter>
+        </receiver><!-- ↑↑↑ 广告联盟SDK ↑↑↑ -->
+
         <meta-data android:value="567f5a5767e58ebbaf0017e6" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:name="BDAPPID" android:value="7567149"/>
+        <meta-data android:name="BDAPPKEY" android:value="K8NCYXX4MFUZTM1TGmY2SPYrFLBNSR87"/>
+
         <!--<meta-data android:value="yingyonghui" android:name="UMENG_CHANNEL"/>-->
         <!--<meta-data android:value="anzhi" android:name="UMENG_CHANNEL"/>-->
         <!--<meta-data android:value="samsung" android:name="UMENG_CHANNEL"/>-->

@@ -21,7 +21,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
     compile files('libs/shoushuotts.jar')
     compile files('libs/umeng-analytics-v5.6.4.jar')
+    compile files('libs/baidu_appx_android_2.0.0.jar')
+    compile files('libs/baidu_cuid.jar')
+    compile 'com.android.support:design:23.1.1'
 }
