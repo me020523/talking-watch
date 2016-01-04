@@ -4,14 +4,17 @@ import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.support.v7.widget.AppCompatImageView;
 
-import com.baidu.appx.BDInterstitialAd;
+import com.baidu.mobads.IconsAd;
+import com.baidu.mobads.RecommendAd;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.Date;
@@ -33,7 +36,6 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
 
     private FloatingActionButton interstitialAd = null;
 
-    private BDInterstitialAd interstitialAdView = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -52,8 +54,8 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
             public void onClick(View v) {
                 //快速双击会导致出现Fragment already added: SettingDialogFragment
                 //所以添加之前需要判断
-                if(!mDialog.isAdded())
-                    mDialog.show(MainActivityFragment.this.getFragmentManager(),"setting");
+                if (!mDialog.isAdded())
+                    mDialog.show(MainActivityFragment.this.getFragmentManager(), "setting");
             }
         });
 
@@ -61,19 +63,46 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         interstitialAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(interstitialAdView != null)
-                    logger.info("展示baidu插屏广告");
-                    interstitialAdView.showAd();
             }
         });
 
+        //baiduIconsAd();
+        baiduAdPromotionWall(interstitialAd);
         mDialog = new SettingDialogFragment();
         mDialog.setEventHandler(this);
 
         return v;
     }
 
+    private RecommendAd baiduRecommendAd = null;
+    private void baiduAdPromotionWall(ImageView icon){
+        Log.i("initialized-ad", "onAdInitialized");
+        String adPlaceId = "2383838"; //重要:请填上您的广告位ID
+        RecommendAd.Builder builder = new RecommendAd.Builder(icon, adPlaceId);
+        builder.setEventListener(new RecommendAd.RecmdEventListener(){
+            @Override
+            public void onIconBindFailed(String reason) {
+                Log.i("RecommendAd-DEMO ", "onIconBindFailed: " + reason); }
+            @Override
+            public void onIconShow() {
+                Log.i("RecommendAd-DEMO ", "onIconShow"); }
 
+            @Override
+            public void onIconClick() {
+
+            }
+        });
+        baiduRecommendAd = builder.build();
+        baiduRecommendAd.load(mContext);
+    }
+
+    private IconsAd iconsAd = null;
+    private void baiduIconsAd(){
+        iconsAd = new IconsAd((MainActivity)mContext,"2384583",new int[]{
+            R.drawable.ic_stars_white_48dp, R.drawable.ic_stars_white_48dp
+        });
+        iconsAd.loadAd((MainActivity)mContext);
+    }
 
     private Context mContext = null;
     private View.OnClickListener onTalkingListener = new View.OnClickListener() {
@@ -128,43 +157,6 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        interstitialAdView = new BDInterstitialAd(
-                (MainActivity)mContext,
-                "K8NCYXX4MFUZTM1TGmY2SPYrFLBNSR87",
-                "EgcXEtq90QMCUEhpdIGG1w5F"
-        );
-        interstitialAdView.setAdListener(new BDInterstitialAd.InterstitialAdListener() {
-            @Override
-            public void onAdvertisementDataDidLoadSuccess() {
-
-            }
-
-            @Override
-            public void onAdvertisementDataDidLoadFailure() {
-
-            }
-
-            @Override
-            public void onAdvertisementViewDidShow() {
-                MobclickAgent.onEvent(mContext, "ad_show");
-            }
-
-            @Override
-            public void onAdvertisementViewDidHide() {
-                interstitialAdView.loadAd();
-            }
-
-            @Override
-            public void onAdvertisementViewDidClick() {
-                MobclickAgent.onEvent(mContext, "ad_click");
-            }
-
-            @Override
-            public void onAdvertisementViewWillStartNewIntent() {
-
-            }
-        });
-        interstitialAdView.loadAd();
         ((MainActivity)mContext).registerServiceConnListener(this);
     }
 
@@ -181,10 +173,11 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
     @Override
     public void onDetach() {
         super.onDetach();
-
+        if(baiduRecommendAd != null){
+            baiduRecommendAd.destroy();
+        }
         ((MainActivity)mContext).unregisterServiceConnListener(this);
         mContext = null;
-        interstitialAdView = null;
         talkingBtn.setOnClickListener(null);
     }
 

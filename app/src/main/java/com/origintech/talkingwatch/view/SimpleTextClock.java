@@ -1,5 +1,6 @@
 package com.origintech.talkingwatch.view;
 
+import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -161,7 +162,7 @@ public class SimpleTextClock extends View {
             mPaint.setTextSize(2 * h / 3);
         }
         StaticLayout staticLayout = new StaticLayout(time,mPaint,
-                w, Layout.Alignment.ALIGN_NORMAL,0,0,false);
+                w, Layout.Alignment.ALIGN_NORMAL,1.0f,0,false);
         Paint.FontMetrics fm = mPaint.getFontMetrics();
         float fontW = mPaint.measureText(time);
         canvas.translate(fontW / 2,
