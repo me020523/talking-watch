@@ -3,4 +3,5 @@
     <string name="app_name">美女报时</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">设置</string>
+    <string name="title_activity_offer_wall">每日推荐</string>
 </resources>

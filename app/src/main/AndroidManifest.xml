@@ -4,23 +4,26 @@
     android:versionCode="110"
     android:versionName="1.1">
 
-    <uses-sdk android:minSdkVersion="4"></uses-sdk>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-sdk android:minSdkVersion="4" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,28 +32,36 @@
         </activity>
 
         <meta-data
-            android:value="567f5a5767e58ebbaf0017e6"
-            android:name="UMENG_APPKEY">
-        </meta-data>
+            android:name="UMENG_APPKEY"
+            android:value="567f5a5767e58ebbaf0017e6"></meta-data>
+
         <activity
             android:name="com.baidu.mobads.AppActivity"
             android:configChanges="keyboard|keyboardHidden|orientation" />
 
-        <meta-data android:name="BaiduMobAd_APP_ID" android:value="f0711636" />
+        <meta-data
+            android:name="BaiduMobAd_APP_ID"
+            android:value="f0711636" />
 
-        <!--<meta-data android:value="yingyonghui" android:name="UMENG_CHANNEL"/>-->
-        <!--<meta-data android:value="anzhi" android:name="UMENG_CHANNEL"/>-->
-        <!--<meta-data android:value="samsung" android:name="UMENG_CHANNEL"/>-->
-        <meta-data android:value="baidu" android:name="UMENG_CHANNEL"/>
-        <!--<meta-data android:value="360" android:name="UMENG_CHANNEL"/>-->
-        <!--<meta-data android:value="google" android:name="UMENG_CHANNEL"/>-->
-        <!--<meta-data android:value="xiaomi" android:name="UMENG_CHANNEL"/>-->
-        <!--<meta-data android:value="QQ" android:name="UMENG_CHANNEL"/>-->
+        <!-- <meta-data android:value="yingyonghui" android:name="UMENG_CHANNEL"/> -->
+        <!-- <meta-data android:value="anzhi" android:name="UMENG_CHANNEL"/> -->
+        <!-- <meta-data android:value="samsung" android:name="UMENG_CHANNEL"/> -->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="baidu" />
+        <!-- <meta-data android:value="360" android:name="UMENG_CHANNEL"/> -->
+        <!-- <meta-data android:value="google" android:name="UMENG_CHANNEL"/> -->
+        <!-- <meta-data android:value="xiaomi" android:name="UMENG_CHANNEL"/> -->
+        <!-- <meta-data android:value="QQ" android:name="UMENG_CHANNEL"/> -->
 
         <service
             android:name=".TalkingWatchService"
-            android:enabled="true">
-        </service>
+            android:enabled="true"></service>
+
+        <activity
+            android:name=".OfferWallActivity"
+            android:label="@string/title_activity_offer_wall"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

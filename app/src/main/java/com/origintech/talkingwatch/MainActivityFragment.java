@@ -1,6 +1,7 @@
 package com.origintech.talkingwatch;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.support.v7.widget.AppCompatImageView;
 
 import com.baidu.mobads.IconsAd;
 import com.baidu.mobads.RecommendAd;
+import com.baidu.mobads.appoffers.OffersManager;
+import com.baidu.mobads.appoffers.PointsUpdateListener;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.Date;
@@ -63,17 +66,19 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         interstitialAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showBaiduOfferWall();
             }
         });
 
         //baiduIconsAd();
-        baiduAdPromotionWall(interstitialAd);
+        //baiduAdPromotionWall(interstitialAd);
         mDialog = new SettingDialogFragment();
         mDialog.setEventHandler(this);
 
         return v;
     }
 
+    //百度推广墙
     private RecommendAd baiduRecommendAd = null;
     private void baiduAdPromotionWall(ImageView icon){
         Log.i("initialized-ad", "onAdInitialized");
@@ -96,6 +101,7 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         baiduRecommendAd.load(mContext);
     }
 
+    //百度轮播广告
     private IconsAd iconsAd = null;
     private void baiduIconsAd(){
         iconsAd = new IconsAd((MainActivity)mContext,"2384583",new int[]{
@@ -103,6 +109,15 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         });
         iconsAd.loadAd((MainActivity)mContext);
     }
+
+    //百度推荐墙
+    private void showBaiduOfferWall(){
+        Log.i("baidu ads", "offer wall shows");
+        Intent intent = new Intent(mContext, OfferWallActivity.class);
+        startActivity(intent);
+    }
+    //百度插屏
+
 
     private Context mContext = null;
     private View.OnClickListener onTalkingListener = new View.OnClickListener() {
