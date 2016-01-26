@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -44,11 +44,11 @@
             android:value="f0711636" />
 
         <!-- <meta-data android:value="yingyonghui" android:name="UMENG_CHANNEL"/> -->
-        <!-- <meta-data android:value="anzhi" android:name="UMENG_CHANNEL"/> -->
-        <!-- <meta-data android:value="samsung" android:name="UMENG_CHANNEL"/> -->
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="baidu" />
+         <meta-data android:value="anzhi" android:name="UMENG_CHANNEL"/>
+         <!--<meta-data android:value="samsung" android:name="UMENG_CHANNEL"/>-->
+        <!--<meta-data-->
+            <!--android:name="UMENG_CHANNEL"-->
+            <!--android:value="baidu" />-->
         <!-- <meta-data android:value="360" android:name="UMENG_CHANNEL"/> -->
         <!-- <meta-data android:value="google" android:name="UMENG_CHANNEL"/> -->
         <!-- <meta-data android:value="xiaomi" android:name="UMENG_CHANNEL"/> -->
@@ -58,10 +58,6 @@
             android:name=".TalkingWatchService"
             android:enabled="true"></service>
 
-        <activity
-            android:name=".OfferWallActivity"
-            android:label="@string/title_activity_offer_wall"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

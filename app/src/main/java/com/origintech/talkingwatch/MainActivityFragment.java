@@ -1,7 +1,6 @@
 package com.origintech.talkingwatch;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,14 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.support.v7.widget.AppCompatImageView;
 
+import com.baidu.mobads.AdView;
+import com.baidu.mobads.AdViewListener;
 import com.baidu.mobads.IconsAd;
 import com.baidu.mobads.RecommendAd;
-import com.baidu.mobads.appoffers.OffersManager;
-import com.baidu.mobads.appoffers.PointsUpdateListener;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.logging.Logger;
@@ -62,11 +64,13 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
             }
         });
 
+        LinearLayout bannerContainer = (LinearLayout)v.findViewById(R.id.banner);
+        this.addBaiduBanner(bannerContainer);
+
         interstitialAd = (FloatingActionButton)v.findViewById(R.id.fab);
         interstitialAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBaiduOfferWall();
             }
         });
 
@@ -110,14 +114,37 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         iconsAd.loadAd((MainActivity)mContext);
     }
 
-    //百度推荐墙
-    private void showBaiduOfferWall(){
-        Log.i("baidu ads", "offer wall shows");
-        Intent intent = new Intent(mContext, OfferWallActivity.class);
-        startActivity(intent);
-    }
-    //百度插屏
+    //百度Banner广告
+    private void addBaiduBanner(ViewGroup container){
+        AdView adView = new AdView(this.getContext(),"2383747");
+        adView.setListener(new AdViewListener() {
+            @Override
+            public void onAdReady(AdView adView) {
 
+            }
+
+            @Override
+            public void onAdShow(JSONObject jsonObject) {
+                MobclickAgent.onEvent(mContext,"banner_ad_show");
+            }
+
+            @Override
+            public void onAdClick(JSONObject jsonObject) {
+                MobclickAgent.onEvent(mContext,"banner_ad_click");
+            }
+
+            @Override
+            public void onAdFailed(String s) {
+
+            }
+
+            @Override
+            public void onAdSwitch() {
+
+            }
+        });
+        container.addView(adView);
+    }
 
     private Context mContext = null;
     private View.OnClickListener onTalkingListener = new View.OnClickListener() {
@@ -188,9 +215,6 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
     @Override
     public void onDetach() {
         super.onDetach();
-        if(baiduRecommendAd != null){
-            baiduRecommendAd.destroy();
-        }
         ((MainActivity)mContext).unregisterServiceConnListener(this);
         mContext = null;
         talkingBtn.setOnClickListener(null);

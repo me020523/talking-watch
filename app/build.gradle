@@ -8,8 +8,8 @@ android {
         applicationId "com.origintech.talkingwatch"
         minSdkVersion 9
         targetSdkVersion 19
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.2"
     }
     buildTypes {
         release {
@@ -26,5 +26,4 @@ dependencies {
     compile files('libs/umeng-analytics-v5.6.4.jar')
     compile 'com.android.support:design:23.1.1'
     compile files('libs/Baidu_MobAds_SDK.jar')
-    compile files('libs/Baidu_MobAds_SDK_Wall.jar')
 }
