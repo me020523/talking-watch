@@ -14,6 +14,8 @@ import android.widget.Toast;
 import android.support.v7.widget.AppCompatImageView;
 
 import com.baidu.mobads.IconsAd;
+import com.baidu.mobads.InterstitialAd;
+import com.baidu.mobads.InterstitialAdListener;
 import com.baidu.mobads.RecommendAd;
 import com.umeng.analytics.MobclickAgent;
 
@@ -59,49 +61,54 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
             }
         });
 
+        initBaiduInterstitialAd();
+
         interstitialAd = (FloatingActionButton)v.findViewById(R.id.fab);
         interstitialAd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
+                baiduInterAd.showAd((MainActivity)mContext);
             }
         });
 
-        //baiduIconsAd();
-        baiduAdPromotionWall(interstitialAd);
         mDialog = new SettingDialogFragment();
         mDialog.setEventHandler(this);
 
         return v;
     }
 
-    private RecommendAd baiduRecommendAd = null;
-    private void baiduAdPromotionWall(ImageView icon){
-        Log.i("initialized-ad", "onAdInitialized");
-        String adPlaceId = "2383838"; //重要:请填上您的广告位ID
-        RecommendAd.Builder builder = new RecommendAd.Builder(icon, adPlaceId);
-        builder.setEventListener(new RecommendAd.RecmdEventListener(){
+    private InterstitialAd baiduInterAd = null;
+    private void initBaiduInterstitialAd(){
+        final String placeId = "2383749";
+        baiduInterAd = new InterstitialAd(mContext, placeId);
+        baiduInterAd.setListener(new InterstitialAdListener() {
             @Override
-            public void onIconBindFailed(String reason) {
-                Log.i("RecommendAd-DEMO ", "onIconBindFailed: " + reason); }
-            @Override
-            public void onIconShow() {
-                Log.i("RecommendAd-DEMO ", "onIconShow"); }
+            public void onAdReady() {
+                logger.info("ad ready");
+            }
 
             @Override
-            public void onIconClick() {
+            public void onAdPresent() {
+                MobclickAgent.onEvent(mContext, "inter_ad_show");
+            }
 
+            @Override
+            public void onAdClick(InterstitialAd interstitialAd) {
+                MobclickAgent.onEvent(mContext, "inter_ad_click");
+            }
+
+            @Override
+            public void onAdDismissed() {
+                baiduInterAd.loadAd();
+                logger.info("ad dismissed");
+            }
+
+            @Override
+            public void onAdFailed(String s) {
+                logger.info("ad failed");
             }
         });
-        baiduRecommendAd = builder.build();
-        baiduRecommendAd.load(mContext);
-    }
-
-    private IconsAd iconsAd = null;
-    private void baiduIconsAd(){
-        iconsAd = new IconsAd((MainActivity)mContext,"2384583",new int[]{
-            R.drawable.ic_stars_white_48dp, R.drawable.ic_stars_white_48dp
-        });
-        iconsAd.loadAd((MainActivity)mContext);
+        baiduInterAd.loadAd();
     }
 
     private Context mContext = null;
@@ -173,9 +180,6 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
     @Override
     public void onDetach() {
         super.onDetach();
-        if(baiduRecommendAd != null){
-            baiduRecommendAd.destroy();
-        }
         ((MainActivity)mContext).unregisterServiceConnListener(this);
         mContext = null;
         talkingBtn.setOnClickListener(null);
