@@ -67,7 +67,7 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         interstitialAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                baiduInterAd.showAd((MainActivity)mContext);
+                baiduInterAd.loadAd();
             }
         });
 
@@ -85,6 +85,7 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
             @Override
             public void onAdReady() {
                 logger.info("ad ready");
+                baiduInterAd.showAd((MainActivity)mContext);
             }
 
             @Override
@@ -99,7 +100,6 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
 
             @Override
             public void onAdDismissed() {
-                baiduInterAd.loadAd();
                 logger.info("ad dismissed");
             }
 
@@ -108,7 +108,6 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
                 logger.info("ad failed");
             }
         });
-        baiduInterAd.loadAd();
     }
 
     private Context mContext = null;

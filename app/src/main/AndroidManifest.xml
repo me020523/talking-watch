@@ -40,9 +40,9 @@
         <meta-data android:name="BaiduMobAd_APP_ID" android:value="f0711636" />
 
         <!--<meta-data android:value="yingyonghui" android:name="UMENG_CHANNEL"/>-->
-        <meta-data android:value="anzhi" android:name="UMENG_CHANNEL"/>
+        <!--<meta-data android:value="anzhi" android:name="UMENG_CHANNEL"/>-->
         <!--<meta-data android:value="samsung" android:name="UMENG_CHANNEL"/>-->
-        <!--<meta-data android:value="Samsung" android:name="UMENG_CHANNEL"/>-->
+        <meta-data android:value="Samsung" android:name="UMENG_CHANNEL"/>
         <!--<meta-data android:value="360" android:name="UMENG_CHANNEL"/>-->
         <!--<meta-data android:value="google" android:name="UMENG_CHANNEL"/>-->
         <!--<meta-data android:value="xiaomi" android:name="UMENG_CHANNEL"/>-->
@@ -56,7 +56,6 @@
         <receiver android:name=".broadcast.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-                <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </receiver>
     </application>
