@@ -22,7 +22,10 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Logger;
 
 /**
@@ -65,7 +68,14 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
         });
 
         LinearLayout bannerContainer = (LinearLayout)v.findViewById(R.id.banner);
-        this.addBaiduBanner(bannerContainer);
+
+        GregorianCalendar future = new GregorianCalendar(2016, 1, 26, 12, 0);
+        GregorianCalendar now = new GregorianCalendar();
+        if(now.getTime().after(future.getTime())) {
+            this.addBaiduBanner(bannerContainer);
+        }
+//        this.addBaiduBanner(bannerContainer);
+
 
         interstitialAd = (FloatingActionButton)v.findViewById(R.id.fab);
         interstitialAd.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +83,7 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
             public void onClick(View v) {
             }
         });
+
 
         //baiduIconsAd();
         //baiduAdPromotionWall(interstitialAd);
@@ -116,7 +127,7 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
 
     //百度Banner广告
     private void addBaiduBanner(ViewGroup container){
-        AdView adView = new AdView(this.getContext(),"2383747");
+        AdView adView = new AdView(this.getContext(),"2413796");
         adView.setListener(new AdViewListener() {
             @Override
             public void onAdReady(AdView adView) {
