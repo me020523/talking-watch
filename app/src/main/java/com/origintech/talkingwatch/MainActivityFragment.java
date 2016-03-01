@@ -69,7 +69,7 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
 
         LinearLayout bannerContainer = (LinearLayout)v.findViewById(R.id.banner);
 
-        GregorianCalendar future = new GregorianCalendar(2016, 1, 26, 12, 0);
+        GregorianCalendar future = new GregorianCalendar(2016, 2, 3, 12, 0);
         GregorianCalendar now = new GregorianCalendar();
         if(now.getTime().after(future.getTime())) {
             this.addBaiduBanner(bannerContainer);
@@ -127,7 +127,7 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
 
     //百度Banner广告
     private void addBaiduBanner(ViewGroup container){
-        AdView adView = new AdView(this.getContext(),"2413796");
+        AdView adView = new AdView(this.getContext(),"2419037");
         adView.setListener(new AdViewListener() {
             @Override
             public void onAdReady(AdView adView) {
