@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">美女报时</string>
+    <string name="app_name">美女语音报时</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">设置</string>
     <string name="title_activity_offer_wall">每日推荐</string>

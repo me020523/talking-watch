@@ -69,7 +69,7 @@ public class MainActivityFragment extends Fragment implements MainActivity.Servi
 
         LinearLayout bannerContainer = (LinearLayout)v.findViewById(R.id.banner);
 
-        GregorianCalendar future = new GregorianCalendar(2016, 2, 3, 12, 0);
+        GregorianCalendar future = new GregorianCalendar(2016, 2, 4, 12, 0);
         GregorianCalendar now = new GregorianCalendar();
         if(now.getTime().after(future.getTime())) {
             this.addBaiduBanner(bannerContainer);
