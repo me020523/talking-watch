@@ -162,11 +162,11 @@ public class SimpleTextClock extends View {
             mPaint.setTextSize(2 * h / 3);
         }
         StaticLayout staticLayout = new StaticLayout(time,mPaint,
-                w, Layout.Alignment.ALIGN_NORMAL,1.0f,0,false);   //倒数第三个参数不能为0，否则文字不会显示
+                w, Layout.Alignment.ALIGN_NORMAL,1.0f,0.0f,true);   //倒数第三个参数不能为0，否则文字不会显示
         Paint.FontMetrics fm = mPaint.getFontMetrics();
         float fontW = mPaint.measureText(time);
-        canvas.translate(fontW / 2,
-                (staticLayout.getLineBottom(0) - staticLayout.getLineTop(0))  / 2);
+        canvas.translate((w - fontW) / 2,
+                (h - (staticLayout.getLineBottom(0) - staticLayout.getLineTop(0)))  / 2);
         staticLayout.draw(canvas);
         canvas.restore();
         canvas.save();

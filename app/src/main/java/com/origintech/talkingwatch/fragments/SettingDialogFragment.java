@@ -1,12 +1,15 @@
 package com.origintech.talkingwatch.fragments;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -54,8 +57,15 @@ public class SettingDialogFragment extends DialogFragment {
         mSensativeSetting = (SeekBar)v.findViewById(R.id.seekBar);
         mServiceRestart = (Button)v.findViewById(R.id.restart_service);
 
-
         return v;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog d =  super.onCreateDialog(savedInstanceState);
+        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        return d;
     }
 
     @Override

@@ -8,70 +8,86 @@
     android:theme="@style/AppTheme"
     tools:context=".fragments.WatchFragment">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
-        <com.origintech.talkingwatch.view.SimpleAnalogClock
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:id="@+id/analogClock"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
-            my:dial="@drawable/dial"
-            my:hour_hand="@drawable/hour_hand"
-            my:min_hand="@drawable/minute_hand"
-            my:min_hand_offset="60dp"
-            my:hour_hand_offset="60dp"/>
-
-        <ImageButton
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:id="@+id/btn_setting"
-            android:src="@drawable/setting"
-            android:padding="4dp"
-            android:focusable="true"
-            android:scaleType="fitCenter"
-            android:background="@drawable/bg_setting"
-            android:layout_alignTop="@+id/btn_talking_toggle"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="24dp"
-            android:layout_marginStart="24dp" />
-
-        <ImageButton
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:id="@+id/btn_talking_toggle"
-            android:src="@drawable/talking"
-            android:background="@drawable/bg_toggle"
-            android:scaleType="fitCenter"
-            android:padding="4dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="24dp" />
-
-        <com.origintech.talkingwatch.view.SimpleTextClock
-            android:id="@+id/textClock"
-            android:layout_below="@id/analogClock"
-            android:layout_marginTop="48dp"
-            android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            my:clock_bg="@drawable/text_background"
-            my:custom_font="digital_7_mono.ttf"/>
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:layout_gravity="left"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:id="@+id/btn_setting"
+                android:src="@drawable/setting"
+                android:padding="4dp"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:background="@drawable/bg_setting"
+                android:layout_alignTop="@+id/btn_talking_toggle"
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp" />
+            <ImageButton
+                android:layout_gravity="right"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:id="@+id/btn_talking_toggle"
+                android:src="@drawable/talking"
+                android:background="@drawable/bg_toggle"
+                android:scaleType="fitCenter"
+                android:padding="4dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="24dp" />
+        </RelativeLayout>
+        <View android:layout_width="0.0dip"
+            android:layout_height="0.0dip"
+            android:layout_weight="3" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_height="0dp"
+            android:layout_weight="30">
+            <com.origintech.talkingwatch.view.SimpleAnalogClock
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                android:id="@+id/analogClock"
+                my:dial="@drawable/dial"
+                my:hour_hand="@drawable/hour_hand"
+                my:min_hand="@drawable/minute_hand"
+                my:min_hand_offset="60dp"
+                my:hour_hand_offset="60dp"/>
+            <View android:layout_width="0.0dip"
+                android:layout_height="0.0dip"
+                android:layout_weight="5.0" />
+            <com.origintech.talkingwatch.view.SimpleTextClock
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/textClock"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="15"
+                my:clock_bg="@drawable/text_background"
+                my:custom_font="digital_7_mono.ttf"/>
+        </LinearLayout>
+        <View android:layout_width="0.0dip"
+            android:layout_height="0.0dip"
+            android:layout_weight="3.0" />
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/talking"
             android:elevation="12dp"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
             android:layout_alignParentBottom="true"
             android:src="@drawable/talk_background"
             android:scaleType="fitCenter"
@@ -91,7 +107,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="4dp"
             android:src="@drawable/ic_stars_white_48dp" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/banner"

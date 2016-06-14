@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="btn_toggle_color">#29b6f6</color>
-    <color name="bg_item_bg">#1A8675</color>
+    <color name="btn_toggle_color">#FF5722</color>
+    <color name="bg_item_bg">#009688</color>
     <color name ="primary"> #009688 </color>
     <color name ="primary_dark">#00796B </color>
     <color name ="accent"> #FF5722 </color>
-    <color name ="fragment_bg"> #e5e5e5 </color>
+    <color name ="fragment_bg"> #009688 </color>
 </resources>

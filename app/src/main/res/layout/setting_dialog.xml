@@ -5,8 +5,6 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:gravity="center">
-
-
     <TextView
         android:background="@color/bg_item_bg"
         android:layout_width="match_parent"
