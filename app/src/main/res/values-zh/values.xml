@@ -4,4 +4,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">设置</string>
     <string name="title_activity_offer_wall">每日推荐</string>
+    <string name="shaking_time_disable">摇动报时已关闭</string>
+    <string name="shaking_time_enable">摇动报时已打开</string>
 </resources>

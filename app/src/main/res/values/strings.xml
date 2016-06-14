@@ -3,4 +3,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_offer_wall">Daily Recommendation</string>
+    <string name="shaking_time_disable">Shaking time is disabled</string>
+    <string name="shaking_time_enable">Shaking time is enabled</string>
 </resources>

@@ -3,6 +3,7 @@ package com.origintech.talkingwatch.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class WatchFragment extends Fragment implements MainActivity.ServiceListe
     private AppCompatImageView talkingBtn = null;
     private ImageButton talkingToggle = null;
     private ImageButton settingBtn = null;
+    private View rootView = null;
 
     private SettingDialogFragment mDialog = null;
 
@@ -43,6 +45,7 @@ public class WatchFragment extends Fragment implements MainActivity.ServiceListe
     {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
+        rootView = v.findViewById(R.id.rootView);
         talkingBtn = (AppCompatImageView)v.findViewById(R.id.talking);
         talkingBtn.setOnClickListener(onTalkingListener);
 
@@ -108,10 +111,14 @@ public class WatchFragment extends Fragment implements MainActivity.ServiceListe
             if(service.getEnabled()){
                 service.setEnabled(false);
                 talkingToggle.setSelected(false);
+                Snackbar.make(rootView, R.string.shaking_time_disable, Snackbar.LENGTH_SHORT)
+                        .show();
             }
             else{
                 service.setEnabled(true);
                 talkingToggle.setSelected(true);
+                Snackbar.make(rootView, R.string.shaking_time_enable, Snackbar.LENGTH_SHORT)
+                        .show();
             }
 
         }

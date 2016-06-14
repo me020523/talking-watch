@@ -9,6 +9,7 @@
     tools:context=".fragments.WatchFragment">
 
     <LinearLayout
+        android:id="@+id/rootView"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
