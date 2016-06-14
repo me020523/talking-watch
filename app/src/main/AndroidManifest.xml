@@ -35,19 +35,12 @@
             android:name="UMENG_APPKEY"
             android:value="567f5a5767e58ebbaf0017e6"></meta-data>
 
-        <activity
-            android:name="com.baidu.mobads.AppActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation" />
-
-        <meta-data
-            android:name="BaiduMobAd_APP_ID"
-            android:value="c504ccff" />
-
         <!-- <meta-data android:value="yingyonghui" android:name="UMENG_CHANNEL"/> -->
          <!--<meta-data android:value="anzhi" android:name="UMENG_CHANNEL"/>-->
-         <meta-data android:value="samsung" android:name="UMENG_CHANNEL"/>
+         <!--<meta-data android:value="samsung" android:name="UMENG_CHANNEL"/>-->
+        <!--<meta-data android:value="huawei" android:name="UMENG_CHANNEL"/>-->
         <!--<meta-data android:name="UMENG_CHANNEL" android:value="baidu" />-->
-         <!--<meta-data android:value="360" android:name="UMENG_CHANNEL"/>-->
+         <meta-data android:value="360" android:name="UMENG_CHANNEL"/>
          <!--<meta-data android:value="google" android:name="UMENG_CHANNEL"/>-->
         <!-- <meta-data android:value="xiaomi" android:name="UMENG_CHANNEL"/> -->
         <!-- <meta-data android:value="QQ" android:name="UMENG_CHANNEL"/> -->

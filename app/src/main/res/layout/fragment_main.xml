@@ -6,7 +6,7 @@
     android:background="@drawable/background"
     android:orientation="vertical"
     android:theme="@style/AppTheme"
-    tools:context=".MainActivityFragment">
+    tools:context=".fragments.WatchFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

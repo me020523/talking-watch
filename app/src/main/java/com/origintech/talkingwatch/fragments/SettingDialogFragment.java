@@ -1,4 +1,4 @@
-package com.origintech.talkingwatch;
+package com.origintech.talkingwatch.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 
+import com.origintech.talkingwatch.R;
 import com.origintech.talkingwatch.event.EventSource;
 import com.origintech.talkingwatch.event.EventSourceManager;
 import com.origintech.talkingwatch.event.ShakeEventSource;

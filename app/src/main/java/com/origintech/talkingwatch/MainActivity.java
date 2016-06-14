@@ -7,11 +7,18 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.Telephony;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.origintech.lib.common.rate.RateMe;
+import com.origintech.talkingwatch.utils.StatusBarUtil;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -40,11 +47,30 @@ public class MainActivity extends AppCompatActivity
     public void unregisterServiceConnListener(ServiceListener sc){
         mServiceConnListener.remove(sc);
     }
+
+    private FragmentPagerAdapter adapter = null;
+    private TabLayout tabLayout = null;
+    private ViewPager viewPager = null;
+    private final int[] tabIcons = new int[]{
+            R.drawable.ic_access_time_white_48dp,
+            R.drawable.ic_access_alarm_white_48dp
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tabLayout = (TabLayout)findViewById(R.id.tablayout);
+        viewPager = (ViewPager)findViewById(R.id.viewpager);
+        adapter = new TalkingWatchViewAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        for(int i = 0; i < tabLayout.getTabCount(); i++){
+            tabLayout.getTabAt(i).setIcon(tabIcons[i]);
+        }
+        StatusBarUtil.setColorNoTranslucent(this, getResources().getColor(R.color.primary_dark));
     }
 
     private boolean isServiceRunning()
@@ -113,6 +139,12 @@ public class MainActivity extends AppCompatActivity
         }
 
         AnalyticsConfig.enableEncrypt(true);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                RateMe.remindToRate(MainActivity.this);
+            }
+        }, 1000);
     }
 
     @Override
